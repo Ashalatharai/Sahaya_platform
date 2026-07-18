@@ -1,0 +1,75 @@
+@import url('https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=Noto+Sans+Devanagari:wght@400;500;600;700&family=Noto+Sans+Kannada:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+    margin: 0;
+    font-family: 'IBM Plex Sans', 'Noto Sans Devanagari', 'Noto Sans Kannada', system-ui, sans-serif;
+    font-size: 18px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Work Sans', 'Noto Sans Devanagari', 'Noto Sans Kannada', sans-serif;
+}
+
+@layer base {
+    :root {
+        --background: 40 33% 97%;
+        --foreground: 24 10% 10%;
+        --card: 0 0% 100%;
+        --card-foreground: 24 10% 10%;
+        --popover: 0 0% 100%;
+        --popover-foreground: 24 10% 10%;
+        --primary: 30 92% 36%;
+        --primary-foreground: 0 0% 100%;
+        --secondary: 20 8% 90%;
+        --secondary-foreground: 24 10% 10%;
+        --muted: 30 20% 96%;
+        --muted-foreground: 25 10% 34%;
+        --accent: 45 96% 76%;
+        --accent-foreground: 30 82% 30%;
+        --destructive: 0 72% 51%;
+        --destructive-foreground: 0 0% 100%;
+        --border: 24 6% 82%;
+        --input: 24 6% 82%;
+        --ring: 30 92% 36%;
+        --radius: 0.75rem;
+    }
+}
+
+@layer base {
+    * {
+        @apply border-border;
+    }
+    body {
+        @apply bg-background text-foreground;
+    }
+    /* Larger tap targets */
+    button, [role="button"], a {
+        touch-action: manipulation;
+    }
+}
+
+@layer components {
+    .tile {
+        @apply bg-card border-2 border-border rounded-2xl p-6 md:p-8 flex flex-col items-start gap-3 min-h-[180px] shadow-sm transition-transform duration-200 hover:-translate-y-1 hover:shadow-md focus:outline-none focus:ring-4 focus:ring-primary/30;
+    }
+    .btn-lg {
+        @apply min-h-[56px] px-6 py-3 text-lg font-semibold rounded-xl transition-colors duration-200;
+    }
+    .input-lg {
+        @apply min-h-[56px] px-4 text-lg rounded-xl border-2 border-border bg-card focus:border-primary focus:ring-4 focus:ring-primary/20 outline-none w-full;
+    }
+}
+
+@layer base {
+    [data-debug-wrapper="true"] {
+        display: contents !important;
+    }
+}

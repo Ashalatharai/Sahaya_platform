@@ -1,0 +1,146 @@
+{
+  "theme": "light",
+  "design_philosophy": "Accessible-first, warm, and highly legible design for Indian senior citizens. The interface prioritizes clarity over density, high contrast over subtle aesthetics, and large interactive areas to accommodate motor and visual age-related declines. It avoids sterile clinical looks, opting instead for 'Organic & Earthy' warmth that fosters trust and reduces loneliness.",
+  "typography": {
+    "fonts": {
+      "headings": "Work Sans, sans-serif",
+      "body": "IBM Plex Sans, sans-serif"
+    },
+    "scale": {
+      "h1": "text-4xl md:text-5xl font-semibold tracking-tight text-foreground",
+      "h2": "text-3xl md:text-4xl font-medium text-foreground",
+      "h3": "text-2xl font-medium text-foreground",
+      "body_large": "text-xl leading-relaxed text-foreground",
+      "body": "text-lg leading-relaxed text-foreground",
+      "labels": "text-base font-semibold uppercase tracking-wider text-muted-foreground"
+    },
+    "rules": [
+      "Base font size must be 18px (text-lg). Do not use text-sm or text-xs.",
+      "Line height must be at least 1.5 (leading-relaxed) for all paragraph text.",
+      "Avoid text justification. Keep text left-aligned.",
+      "Use static field labels, never floating labels."
+    ]
+  },
+  "colors": {
+    "light": {
+      "background": "#FAF9F6",
+      "foreground": "#1C1917",
+      "card": "#FFFFFF",
+      "card_foreground": "#1C1917",
+      "primary": "#B45309",
+      "primary_foreground": "#FFFFFF",
+      "secondary": "#E7E5E4",
+      "secondary_foreground": "#1C1917",
+      "muted": "#F5F5F4",
+      "muted_foreground": "#57534E",
+      "accent": "#FDE68A",
+      "accent_foreground": "#92400E",
+      "destructive": "#DC2626",
+      "destructive_foreground": "#FFFFFF",
+      "border": "#D6D3D1",
+      "ring": "#B45309"
+    },
+    "dark": {
+      "background": "#1C1917",
+      "foreground": "#FAF9F6",
+      "card": "#292524",
+      "card_foreground": "#FAF9F6",
+      "primary": "#D97706",
+      "primary_foreground": "#FFFFFF",
+      "secondary": "#44403C",
+      "secondary_foreground": "#FAF9F6",
+      "muted": "#292524",
+      "muted_foreground": "#A8A29E",
+      "accent": "#78350F",
+      "accent_foreground": "#FDE68A",
+      "destructive": "#EF4444",
+      "destructive_foreground": "#FFFFFF",
+      "border": "#44403C",
+      "ring": "#D97706"
+    },
+    "rules": [
+      "Maintain WCAG AAA contrast ratio (>7:1) for all text.",
+      "Do not use generic gray backgrounds; always tint with warmth (e.g., warm stone, sand).",
+      "SOS buttons must always use the destructive color strictly with white text.",
+      "Focus rings must be clearly visible: focus:ring-4 focus:ring-offset-2."
+    ]
+  },
+  "visual_enhancers": {
+    "surfaces": "Use 'Neumorphism-lite' with Flat Solid backgrounds and crisp borders for clarity. Avoid Glassmorphism as blur effects can disorient users with poor vision.",
+    "borders": "1px solid borders on cards to clearly define edges. High-contrast border colors.",
+    "shadows": "Subtle ambient shadows (shadow-md) to lift interactive elements, but do not rely on shadows alone for boundaries.",
+    "icons": "Use Lucide icons. Minimum size must be 32x32px (w-8 h-8). Pair all icons with explicit text labels. Do not use emojis."
+  },
+  "components": {
+    "buttons": "min-h-[56px] px-6 py-3 text-xl font-medium rounded-xl transition-colors. Always include distinct hover/active states.",
+    "inputs": "min-h-[56px] px-4 text-lg rounded-xl border-2 focus:border-primary focus:ring-4.",
+    "cards": "rounded-2xl p-6 md:p-8 border-2 border-border/50 bg-card. Interactive cards must have a clear hover state (lift and darken border).",
+    "checkboxes": "Extremely large hit areas. The visible box must be at least w-8 h-8.",
+    "toast_notifications": "Do not auto-dismiss or fade out critical messages. Provide a clear, large 'Close' or 'Dismiss' button.",
+    "navigation": "Sticky top header with high contrast background. Must include the Multilingual toggle (EN/KN/HI). No hidden hamburger menus on desktop."
+  },
+  "layouts": {
+    "spacing": "Generous spacing. Use p-6, p-8, gap-6, gap-8. Elements must never feel cramped.",
+    "dashboard_grid": "Use a clear, distinct Grid for the 7 tiles. Mobile: 1 column. Tablet/Desktop: 2 or 3 columns max. Tiles should be large, blocky, and color-coded lightly if helpful, but primarily rely on clear Typography and Icons.",
+    "containers": "Max width 1200px (max-w-6xl) to ensure text lines do not get too long and hard to track."
+  },
+  "motion": {
+    "philosophy": "Reduced motion by default. No rapid carousels, no complex 3D scenes, no parallax.",
+    "allowed": "Simple fade-ins (opacity), subtle scaling on button press, smooth state transitions.",
+    "css": "transition-colors duration-200, transition-transform duration-200. Do not use 'transition-all'."
+  },
+  "accessibility": {
+    "contrast": "WCAG AAA compliant.",
+    "tap_targets": "Minimum 56x56 pixels for any clickable element.",
+    "screen_readers": "Use aria-labels for icon-only buttons. Semantic HTML strictly required.",
+    "cognitive": "Plain language (6th-8th grade level). One question per screen for multi-step forms.",
+    "testing_attributes": "All interactive elements MUST include data-testid (e.g., data-testid='sos-emergency-button')."
+  },
+  "media": {
+    "hero": {
+      "url": "https://images.unsplash.com/photo-1651471239853-b105a5c133e7",
+      "description": "Group of Indian senior citizens sitting together, representing community."
+    },
+    "communities_yoga": {
+      "url": "https://images.unsplash.com/photo-1782389084089-33dcf931da98",
+      "description": "Elderly woman in pink sari doing namaste gesture."
+    },
+    "communities_gardening": {
+      "url": "https://images.unsplash.com/photo-1693154629670-ce08bf178ecb",
+      "description": "Senior woman gardening and interacting with plants."
+    },
+    "communities_reading": {
+      "url": "https://images.unsplash.com/photo-1758691031958-29541f3207a5",
+      "description": "Happy senior woman reading a book."
+    },
+    "daily_care": {
+      "url": "https://images.unsplash.com/photo-1624031000106-79254a8faa19",
+      "description": "Senior hands holding medicine pills."
+    },
+    "memory_corner": {
+      "url": "https://images.unsplash.com/photo-1584348075762-82fa14a947a3",
+      "description": "Vintage sepia photo of an Indian family."
+    },
+    "ai_companion": {
+      "url": "https://images.unsplash.com/photo-1622547748225-3fc4abd2cca0",
+      "description": "Abstract friendly blue and white AI sphere representation."
+    }
+  },
+  "instructions_to_main_agent": [
+    "Configure Tailwind CSS with the provided custom colors, replacing default background and foreground to enforce the earthy, high-contrast theme.",
+    "Implement i18next for English, Kannada, and Hindi. Ensure the language toggle is prominently placed in the main navigation with a minimum 56px touch target.",
+    "For the AI Companion, integrate the Web Speech API. Add massive, clearly labeled 'Hold to Speak' (Speech-to-Text) and 'Read Aloud' (Text-to-Speech) buttons.",
+    "The Dashboard must feature 7 distinct tiles: Communities, AI Companion, Daily Care, Memory Corner, Mood Check, Profile, and a highly prominent SOS button.",
+    "SOS button MUST be red (destructive) with white text, positioned persistently or highly visible on the dashboard, with a data-testid='sos-button'.",
+    "Use standard Shadcn UI components but heavily override their sizes: buttons must be min-h-[56px] and fonts text-lg minimum.",
+    "Do not use any 3D libraries (Three.js/R3F) or complex animations. Keep the interface completely static and clear to prevent disorientation."
+  ],
+  "universal_guidelines": [
+    "Avoid the 'AI slop' aesthetic: no generic centered layouts, simplistic gradients, or uniform styling.",
+    "Do not use dark colors as gradients. Use solid colors.",
+    "DO NOT apply universal transitions (e.g., transition: all). Target specific properties.",
+    "DO NOT use transparent backgrounds for headers or dropdowns to ensure text readability.",
+    "NEVER use AI assistant emoji characters (🤖🧠💭💡) for icons. Use Lucide React icons instead.",
+    "Every interactive element MUST have a data-testid attribute in kebab-case."
+  ]
+}

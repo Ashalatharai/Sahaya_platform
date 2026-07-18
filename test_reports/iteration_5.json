@@ -1,0 +1,49 @@
+{
+  "summary": "Frontend-only responsive layout regression testing for Layout.jsx + LanguageToggle.jsx rewrite. Verified 4 viewports (390 mobile, 800 tablet, 1280 laptop, 1920 desktop). Login as kamala@demo.com works. Overall the fix is CORRECT: bottom-nav shows only below lg, top desktop nav shows lg+, all 7 desktop nav links visible at 1280 & 1920, compact language dropdown works on mobile+tablet, segmented desktop language toggle works on 1280+, both toggles persist to localStorage, i18n translates all UI chrome (bnav-home = 'होम' after Hindi switch). Profile / messages / bottom-nav / nav-companion navigation all functional. HOWEVER one real horizontal-scroll regression exists at 1280px that matches exactly what the user complained about.",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {
+    "ui_bugs": [
+      {
+        "component": "Layout header (right cluster)",
+        "issue": "At laptop viewport 1280x800 the header right-side flex div (containing messages icon + notification bell + full segmented LanguageToggle + profile avatar + logout) overflows the viewport by 11px. scrollWidth=1291, clientWidth=1280. header-logout-btn's right edge is at x=1291. This produces a small horizontal scrollbar exactly at the width the user complained about ('in desktop not showing correct'). Root cause: header wrapper uses `max-w-7xl` (=1280px) with `px-3` (=12px each side), so usable inner width at 1280px viewport is 1256px, but logo(~130px) + 7 nav links + right cluster (~430px with full-label desktop LanguageToggle) sums to >1256px. The layout fits at 1440-1535 (still no `hidden 2xl:inline`) and at 1536+ once labels compress, so the overflow window is roughly 1280-1379. FIX SUGGESTION: either (a) reduce header horizontal padding to `px-2` at lg (already using lg:px-6 which makes it WORSE — 24px each side = 48px), or (b) hide the segmented control's leading Languages icon or shrink nav gaps at lg / xl, or (c) apply the `2xl:inline` label-hiding to nav-companion at `lg:hidden xl:inline` instead of `hidden 2xl:inline`, or (d) use `max-w-none` on the header inner div and rely on px only.",
+        "selector": "header .max-w-7xl > div.flex.items-center.gap-1.lg\\:gap-2.flex-shrink-0",
+        "priority": "HIGH"
+      },
+      {
+        "component": "Feed stories-bar (pre-existing, not caused by this iteration)",
+        "issue": "At mobile 390 the stories bar div (data-testid='stories-bar') uses `-mx-4 px-4 overflow-x-auto` inside a container with `px-3`. Its left edge is -4px and right edge is 394px, causing a 4px horizontal overflow on the whole page. Cosmetically negligible but visible as tiny hscroll on iOS.",
+        "selector": "[data-testid='stories-bar']",
+        "priority": "LOW"
+      }
+    ],
+    "integration_issues": [],
+    "design_issues": [
+      {
+        "screen": "Laptop 1280",
+        "issues": [
+          "nav-companion label ('AI Companion') is still visible at 1280 even though the class `hidden 2xl:inline` is applied. Tailwind default 2xl is 1536px, so it SHOULD be hidden at 1280. It's showing which means either the tailwind config was overridden or a CSS specificity issue. Regardless of intent, showing the label contributes to the 1280 overflow described above. Recommend either (i) verify tailwind breakpoints in tailwind.config.js and use `hidden xl:inline` for a smaller cut-off, or (ii) accept label at 1280 but tighten other spacing to avoid overflow."
+        ]
+      }
+    ]
+  },
+  "test_report_links": [],
+  "action_items": [
+    "PRIMARY: Fix 11px horizontal overflow at viewport width 1280x800 in the header right-side cluster. Recommend hiding the leading Languages icon inside the desktop segmented control between lg and xl, and/or reducing lg:gap-2 to lg:gap-1 and lg:px-6 to lg:px-4 on the header wrapper. Verify no hscroll at every 32px step between 1024 and 1440.",
+    "SECONDARY: Verify tailwind.config.js `screens` for `2xl` — if it's 1536px (default), the `hidden 2xl:inline` on nav-companion label is not taking effect at 1280 as intended. Either change to `hidden xl:inline` (label appears at 1280+, actively HIDES at 1024-1279) or accept the current behavior.",
+    "OPTIONAL: Fix pre-existing 4px hscroll on mobile 390 caused by stories-bar `-mx-4 px-4` inside `px-3` parent (mismatch of 1px on each side)."
+  ],
+  "critical_code_review_comments": [
+    "Layout.jsx line 30: `hidden lg:flex ... flex-1 justify-center xl:justify-start xl:ml-4` — the flex-1 + justify-center is fine, but at 1280 (which is between lg=1024 and xl=1280 or 2xl=1536 depending on config) the layout switches, making header width increasingly cramped just as extra spacing kicks in. Consider using a single alignment strategy from lg upward.",
+    "LanguageToggle.jsx line 51: leading `<Languages className='w-4 h-4 ml-2'>` icon inside the segmented control adds ~28px including ml-2 that is not strictly needed on 1280. It could be `hidden xl:block` to save width.",
+    "Layout.jsx: `bottom-nav` correctly hidden via `lg:hidden` at 1280+ (confirmed present-in-DOM-but-invisible). Good.",
+    "LanguageToggle.jsx: dropdown menu uses `fixed inset-0 z-40` backdrop and `absolute right-0 top-full mt-2 z-50` menu — z-index ordering correct, backdrop click closes cleanly. No overlay-blocks-input issues seen."
+  ],
+  "updated_files": [],
+  "success_rate": {"backend": "not tested (per request)", "frontend": "≈92% — every functional requirement passes, only the 1280 horizontal-overflow visual bug remains"},
+  "test_credentials": "kamala@demo.com / demo1234 (from /app/memory/test_credentials.md)",
+  "seed_data_creation": "None",
+  "retest_needed": true,
+  "should_main_agent_self_test": true,
+  "context_for_next_testing_agent": "Layout.jsx and LanguageToggle.jsx were rewritten to fix a responsive gap in the 1024-1279 range. This iteration verified the fix works functionally: all 7 top-nav links visible at 1280+, bottom-nav hidden at 1280+, compact language dropdown at <lg with translation persistence, segmented control at lg+, all navigation regressions clean. The remaining issue is an 11px horizontal overflow at exactly 1280 viewport width caused by header inner content exceeding max-w-7xl inner width. Focus retest specifically on scrollWidth==clientWidth at 1280, 1366, 1440 after the fix. Also verify mobile 390 still has stories-bar 4px overflow (pre-existing, unchanged). Screenshots captured at /app/.screenshots/mobile_390.png, tablet_800.png, laptop_1280.png, desktop_1920.png.",
+  "rca of the issue": "At viewport 1280x800 the header wrapper is `max-w-7xl (=1280px) mx-auto lg:px-6` — inner usable width becomes 1280 - 48 = 1232px. Header content sums to: logo cluster ≈130px + 7 nav links (each ~90-120px with icon+label) ≈700-820px + right cluster (messages 44 + bell 44 + full LanguageToggle ≈200 + profile 44 + logout 44 + gaps ≈50) ≈426px → total ≈1256-1376px, exceeding 1232px by 24-144px in the worst cases. Playwright confirmed the right cluster ends at x=1291 (11px past 1280). The bottom-nav being `lg:hidden` is NOT causing the overflow (it's display:none). Reproduction: viewport 1280, login as any user, land on Home, inspect document.documentElement.scrollWidth (=1291) vs clientWidth (=1280). Mitigation: the FIX made bottom-nav visibility correct (previously the 1024-1279 band had NO nav at all), but the trade-off is that at 1280 the segmented desktop language toggle + full nav labels don't quite fit. Suggested mitigation is described in action_items above."
+}
