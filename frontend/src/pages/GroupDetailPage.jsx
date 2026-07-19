@@ -19,6 +19,7 @@ export default function GroupDetailPage() {
     setGroup(c.data);
     setPosts(p.data);
   };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => { load(); }, [id]);
 
   const toggleJoin = async () => {
